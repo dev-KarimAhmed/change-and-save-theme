@@ -11,18 +11,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ChangeThemeCubit()..getTheme(),
       child: BlocBuilder<ChangeThemeCubit, ChangeThemeState>(
         builder: (context, state) {
+          final themeCubit = context.read<ChangeThemeCubit>();
+          ThemeData currentTheme = themeCubit.mainTheme ?? AppTheme.lightBlueTheme;
+
           return MaterialApp(
-            
-            title: 'Change theme',
+            title: 'Change Theme',
             debugShowCheckedModeBanner: false,
-            theme: context.read<ChangeThemeCubit>().mainTheme,
+            theme: currentTheme,
             home: const MyHomePage(),
           );
         },

@@ -26,50 +26,36 @@ class ColorsChoose extends StatelessWidget {
                 colorName: 'Red Dark',
                 textColor: Colors.white,
                 onTap: () {
-                  context
-                      .read<ChangeThemeCubit>()
-                      .saveIndex(index: 2)
-                      .then((value) {
-                    context
-                        .read<ChangeThemeCubit>()
-                        .getTheme(theme: AppTheme.darkRedTheme);
-                  });
+                  _changeTheme(context, 2);
                 },
               ),
               ColorCard(
-                  color: const Color.fromARGB(255, 0, 87, 158),
-                  colorName: 'Blue Dark',
-                  textColor: Colors.white,
-                  onTap: () {
-                                 context
-                      .read<ChangeThemeCubit>()
-                      .saveIndex(index: 1)
-                      .then((value) {
-    context
-                      .read<ChangeThemeCubit>()
-                      .getTheme(theme: AppTheme.darkRedTheme);
-                      });
-                  },),
+                color: const Color.fromARGB(255, 0, 87, 158),
+                colorName: 'Blue Dark',
+                textColor: Colors.white,
+                onTap: () {
+                  _changeTheme(context, 1);
+                },
+              ),
               ColorCard(
                 color: const Color.fromARGB(255, 44, 160, 255),
-                colorName: 'Blue light',
+                colorName: 'Blue Light',
                 textColor: Colors.black,
                 onTap: () {
-                                 context
-                      .read<ChangeThemeCubit>()
-                      .saveIndex(index: 0)
-                      .then((value) {
-    context
-                      .read<ChangeThemeCubit>()
-                      .getTheme(theme: AppTheme.darkRedTheme);
-                      });
-                  },
+                  _changeTheme(context, 0);
+                },
               ),
             ],
           );
         },
       ),
     );
+  }
+
+  void _changeTheme(BuildContext context, int index) {
+    context.read<ChangeThemeCubit>().saveIndex(index: index).then((_) {
+      // context.read<ChangeThemeCubit>().getTheme();
+    });
   }
 }
 
@@ -86,6 +72,7 @@ class ColorCard extends StatelessWidget {
   final String colorName;
   final Color textColor;
   final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -93,13 +80,14 @@ class ColorCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16),
-            color: color,
-            child: Text(
-              colorName,
-              style: TextStyle(color: textColor, fontSize: 20),
-            )),
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          color: color,
+          child: Text(
+            colorName,
+            style: TextStyle(color: textColor, fontSize: 20),
+          ),
+        ),
       ),
     );
   }

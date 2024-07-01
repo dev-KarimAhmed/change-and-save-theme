@@ -11,33 +11,28 @@ class ChangeThemeCubit extends Cubit<ChangeThemeState> {
   ThemeData? mainTheme;
   int? _index;
 
-  Future<void> getTheme({ThemeData? theme}) async {
+  Future<void> getTheme() async {
     emit(ChangeThemeLoading());
+    
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getInt('index') != null) {
-      _index = prefs.getInt('index');
-    } else {
-      _index = 0;
+    _index = prefs.getInt('index') ?? 0;
+
+    switch (_index) {
+      case 1:
+        mainTheme = AppTheme.darkBlueTheme;
+        break;
+      case 2:
+        mainTheme = AppTheme.darkRedTheme;
+        break;
+      default:
+        mainTheme = AppTheme.lightBlueTheme;
     }
 
-    if (_index == 0) {
-      mainTheme = AppTheme.lightBlueTheme;
-      emit(ChangeThemeDone());
-    } else if (_index == 1) {
-      mainTheme = AppTheme.darkBlueTheme;
-      emit(ChangeThemeDone());
-    } else {
-      mainTheme = AppTheme.darkRedTheme;
-      emit(ChangeThemeDone());
-    }
+    emit(ChangeThemeDone());
   }
 
   Future<void> saveIndex({int? index}) async {
     final prefs = await SharedPreferences.getInstance();
-    if (index == null) {
-      prefs.setInt('index', 0);
-    } else {
-      prefs.setInt('index', index);
-    }
+    prefs.setInt('index', index ?? 0);
   }
 }
